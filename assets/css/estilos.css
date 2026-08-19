@@ -1,0 +1,172 @@
+/* assets/css/estilos.css */
+body {
+    background-color: #f4f6f9;
+}
+
+/* =========================================
+   1. ESTILOS DEL LOGIN
+   ========================================= */
+.login-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    background-color: white;
+    max-width: 900px;
+    width: 100%;
+}
+.bg-uptag {
+    background-color: #8B1A1A;
+    color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.form-section {
+    padding: 4rem 3rem;
+}
+.logo-login {
+    max-width: 150px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   2. ESTILOS DEL DASHBOARD (TABLAS Y PDF)
+   ========================================= */
+.tabla-word { 
+    width: 100%; 
+    border-collapse: collapse; 
+    background-color: white; 
+    font-family: 'Arial', sans-serif; 
+}
+.tabla-word th, .tabla-word td { 
+    border: 1px solid #000; 
+    padding: 8px; 
+    text-align: center; 
+    vertical-align: middle; 
+    font-size: 0.80rem; 
+}
+.tabla-word th { 
+    background-color: #e9ecef !important; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    -webkit-print-color-adjust: exact; 
+}
+.header-rojo { 
+    background-color: #8B1A1A !important; 
+    color: white !important; 
+    font-size: 1.1rem; 
+    text-transform: uppercase; 
+    padding: 10px !important; 
+    font-weight: bold; 
+    -webkit-print-color-adjust: exact; 
+}
+.header-oscuro { 
+    background-color: #343a40 !important; 
+    color: white !important; 
+    font-size: 0.9rem; 
+    text-transform: uppercase; 
+    padding: 6px !important; 
+    letter-spacing: 2px; 
+    -webkit-print-color-adjust: exact; 
+}
+.columna-hora { 
+    background-color: #e9ecef !important; 
+    font-weight: bold; 
+    white-space: nowrap; 
+    width: 140px; 
+    -webkit-print-color-adjust: exact; 
+}
+.celda-materia { 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    display: block; 
+    margin-bottom: 2px; 
+}
+.celda-profe { 
+    display: block; 
+    font-size: 0.75rem; 
+    color: #333; 
+}
+.celda-aula { 
+    display: block; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    margin-top: 2px; 
+}
+
+/* Reglas especiales que se activan solo al imprimir o guardar en PDF */
+@media print {
+    body { background-color: white !important; margin: 0; padding: 0; }
+    #sidebar, .top-navbar, .area-no-imprimir, .btn-group { display: none !important; }
+    #main-content { margin-left: 0 !important; width: 100% !important; padding: 0 !important; }
+    .card { border: none !important; box-shadow: none !important; margin: 0 !important; }
+    .card-header { display: none !important; }
+    .card-body { padding: 0 !important; }
+    /* Esta regla elimina la fecha y el enlace localhost del navegador */
+    @page { size: landscape; margin: 0; } 
+}
+
+/* =========================================
+   3. ESTILOS DE ESTRUCTURA (HEADER Y SIDEBAR)
+   ========================================= */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f8f9fa; 
+    overflow-x: hidden; 
+}
+#sidebar { 
+    min-width: 250px; 
+    max-width: 250px; 
+    min-height: 100vh; 
+    background-color: #8B1A1A; 
+    color: white; 
+    transition: all 0.3s; 
+}
+#sidebar .nav-link { 
+    color: rgba(255,255,255,0.8); 
+    padding: 10px 20px; 
+    margin-bottom: 5px; 
+    border-radius: 5px; 
+    transition: all 0.3s; 
+    font-weight: 500;
+}
+#sidebar .nav-link:hover, #sidebar .nav-link.active { 
+    background-color: rgba(255,255,255,0.1); 
+    color: white; 
+}
+#main-content { 
+    transition: all 0.3s; 
+    width: 100%; 
+}
+.top-navbar { 
+    background-color: white; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+    padding: 15px 20px; 
+}
+
+/* =========================================
+   4. RESPONSIVE (TELÉFONOS Y TABLETS)
+   ========================================= */
+@media (max-width: 768px) {
+    #sidebar {
+        position: fixed;
+        z-index: 1050;
+        transform: translateX(-100%); /* Oculto a la izquierda por defecto */
+        height: 100vh;
+    }
+    #sidebar.mostrar-movil {
+        transform: translateX(0); /* Deslizar hacia adentro */
+        box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+    }
+}

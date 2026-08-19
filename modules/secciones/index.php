@@ -1,0 +1,89 @@
+<?php
+// modules/secciones/index.php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: ../../index.php");
+    exit();
+}
+
+require '../../config/db.php';
+$ruta = '../../'; 
+include '../../includes/header.php';
+
+$sql = "SELECT * FROM secciones ORDER BY trayecto ASC, trimestre ASC, codigo ASC";
+$stmt = $conn->query($sql);
+$secciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$es_admin = (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) == 'administrador');
+?>
+
+<div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+    <h2 class="fw-bold mb-0"><i class="bi bi-people text-danger me-2"></i> Gestión de Secciones</h2>
+    
+    <?php if($es_admin): ?>
+        <a href="nuevo.php" class="btn btn-danger" style="background-color: #8B1A1A;">
+            <i class="bi bi-plus-lg"></i> Registrar Sección
+        </a>
+    <?php endif; ?>
+</div>
+
+<?php if(isset($_GET['msg']) && $_GET['msg'] == 'error_uso'): ?>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> <strong>Acción denegada:</strong> No se puede eliminar esta sección porque ya tiene bloques de horario asignados.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+<div class="row mb-3 area-no-imprimir">
+    <div class="col-md-5 ms-auto">
+        <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0 text-danger">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" id="buscadorGeneral" class="form-control border-start-0" placeholder="Buscar por código, trayecto o trimestre...">
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover table-striped mb-0 align-middle text-center">
+            <thead class="table-dark" style="background-color: #343a40;">
+                <tr>
+                    <th>Código de Sección</th>
+                    <th>Trayecto</th>
+                    <th>Trimestre</th>
+                    <th>Matrícula (Alumnos)</th>
+                    <?php if($es_admin): ?>
+                        <th>Acciones</th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($secciones as $s): ?>
+                <tr>
+                    <td class="fw-bold text-dark fs-6"><?php echo htmlspecialchars($s['codigo']); ?></td>
+                    <td>
+                        <span class="badge bg-secondary">
+                            <?php echo ($s['trayecto'] == 0) ? 'Trayecto Inicial' : 'Trayecto ' . $s['trayecto']; ?>
+                        </span>
+                    </td>
+                    <td>Trimestre <?php echo $s['trimestre']; ?></td>
+                    <td><i class="bi bi-person-fill text-muted me-1"></i> <?php echo $s['cantidad_alumnos']; ?></td>
+                    
+                    <?php if($es_admin): ?>
+                    <td>
+                        <div class="btn-group">
+                            <a href="editar.php?id=<?php echo $s['id']; ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            <a href="eliminar.php?id=<?php echo $s['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Borrar sección?');"><i class="bi bi-trash"></i></a>
+                        </div>
+                    </td>
+                    <?php endif; ?>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php include '../../includes/footer.php'; ?>
